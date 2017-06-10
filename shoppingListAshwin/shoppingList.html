@@ -1,0 +1,183 @@
+<html>
+	<head>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+		
+		<style>
+			html {
+  			font-size: 14px;
+			}
+
+			@include media-breakpoint-up(sm) {
+  			html {
+    		font-size: 16px;
+  				}
+			}
+
+			@include media-breakpoint-up(md) {
+  			html {
+    		font-size: 20px;
+				}
+			}
+
+			@include media-breakpoint-up(lg) {
+  			html {
+    		font-size: 28px;
+  				}
+			}
+			.btn btn-primary{
+				padding-top: 20px;
+				text-decoration-style: wavy;
+			}
+			.container {
+				background-color: #4ABDAC;
+			}
+			.col{
+				background-color: mediumaquamarine;
+				padding:20px;
+				shape-margin: 20px;
+				border: solid #4ABDAC 20px;
+				text-align: center;
+			}
+			ul {
+				text-align: center;
+				padding-top: 20px;
+				}
+			li{
+				padding-left: 10px;
+				padding:10px;
+				text-align: center;
+			}
+			p{
+				background-color: mediumaquamarine;
+				
+			}
+			
+		</style>
+			
+    <script>
+        
+		var itemList = [];
+		var item =0;
+        function saveList () {
+            localStorage.setItem('itemList', JSON.stringify(itemList));
+        }
+        
+        function disableButton (button) {
+             button.attr('disabled','disabled');
+			 button.innerHTML = "Added to cart";
+            }
+            
+        
+        $(function () {
+			for(var i = 1 ; i<=6 ;++i){
+            $("[data-id =" + i+"]" ).click(function (){
+                
+				var id = $(this).siblings();
+				var price = id[2].children[1].textContent; 
+				
+				if(id[3].value) 
+					var q = id[3].value; 
+				else
+					var q = 1;  // if no quantity is mentioned default 1
+				
+				item++;
+				itemList.push({
+                    name: id[2].children[0].textContent,
+					price: id[2].children[1].textContent,
+                    quantity: q,
+					id: item
+                });
+				
+				console.log($(this));
+				console.log(id[3].textContent);
+				
+				disableButton($(this)); // call disableButton
+                saveList();
+            	});
+			}
+        })
+
+		</script>
+	</head>
+	<body>
+		
+		<div class="container">
+			
+			<h1 class="display-1" style="text-align:center; background-color:aqua">Your generic shopping cart</h1><br>
+		    <p class="lead" style="text-align:center">
+  				
+				Welcome to the very generic shopping cart<br>
+				Once add to cart has been clicked check out your cart to increase or decrease items.<br>
+				First field indicates name and second field the price<br>
+				Enter the no. of items and click on add to cart<br>
+				If no. of items not entered we assume you neeed only one<br>
+			</p>
+ 			<h1 style="text-align:center"> <a class="btn btn-outline-primary btn-lg btn-block" href="shoppingList.html"> Move to Inventory </a></h1>
+			<h1 style="text-align:center"> <a class="btn btn-primary btn-lg btn-block" href="cart.html"> Move to your cart</a> </h1>
+			
+			<div class="row">
+    			<div class="col">
+      				<img src="phone2.png"><br>
+					<ul class="list-group">
+						<li class="list-group-item" id="i1name">Generic phone1</li>
+						<li class="list-group-item" id="i1cost">1000</li>
+					</ul> 					<input class="form-control" type="text" placeholder="Enter no. of items">
+					<button syle="display: inline-block" type="button" data-id="1" class="btn btn-success btn-block">Add to cart</button>
+    			</div>
+    			
+				<div class="col">
+      				<img src="phone2.png"><br>
+					<ul class="list-group">
+						<li class="list-group-item" id="i2name">Generic phone2</li>
+						<li class="list-group-item" id="i2cost">2000</li>
+					</ul> 	
+					<input class="form-control" type="text" placeholder="Enter no. of items">
+					<button syle="display: inline-block" type="button" data-id="2" class="btn btn-success btn-block">Add to cart</button>
+    			</div>
+				
+				<div class="col">
+      				<img src="phone2.png"><br>
+					<ul class="list-group">
+						<li class="list-group-item" id="i3name">Generic phone3</li>
+						<li class="list-group-item" id="i3cost">3000</li>
+					</ul> 					<input class="form-control" type="text" placeholder="Enter no. of items">
+					<button syle="display: inline-block" type="button" data-id="3" class="btn btn-success btn-block">Add to cart</button>
+    			</div>
+					
+  		</div>
+			<div class="row">
+    			<div class="col">
+      				<img src="phone2.png"><br>
+					<ul class="list-group">
+						<li class="list-group-item" id="i1name">Generic phone4</li>
+						<li class="list-group-item" id="i1cost">10000</li>
+					</ul> 					<input class="form-control" type="text" placeholder="Enter no. of items">
+					<button syle="display: inline-block" type="button" data-id="4" class="btn btn-success btn-block">Add to cart</button>
+    			</div>
+    			
+				<div class="col">
+      				<img src="phone2.png"><br>
+					<ul class="list-group">
+						<li class="list-group-item" id="i2name">Generic phone5</li>
+						<li class="list-group-item" id="i2cost">20000</li>
+					</ul> 					<input class="form-control" type="text" placeholder="Enter no. of items">
+					<button syle="display: inline-block" type="button" data-id="5" class="btn btn-success btn-block">Add to cart</button>
+    			</div>
+				
+				<div class="col">
+      				<img src="phone2.png"><br>
+					<ul class="list-group">
+						<li class="list-group-item" id="i3name">Generic phone6</li>
+						<li class="list-group-item" id="i3cost">30000</li>
+					</ul> 					
+					<input class="form-control" type="text" placeholder="Enter no. of items">
+				<button syle="display: inline-block" type="button" data-id="6" class="btn btn-success btn-block">Add to cart</button>
+    			</div>
+		</div>
+		
+	</body>
+</html>

@@ -1,0 +1,195 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+		
+		<style>
+			html {
+  			font-size: 14px;
+			}
+
+			@include media-breakpoint-up(sm) {
+  			html {
+    		font-size: 16px;
+  				}
+			}
+
+			@include media-breakpoint-up(md) {
+  			html {
+    		font-size: 20px;
+				}
+			}
+
+			@include media-breakpoint-up(lg) {
+  			html {
+    		font-size: 28px;
+  				}
+			}
+			.btn btn-primary{
+				padding-top: 20px;
+				text-decoration-style: wavy;
+			}
+			.container {
+				background-color: #4ABDAC;
+			}
+			.col{
+				background-color: mediumaquamarine;
+				padding:20px;
+				shape-margin: 20px;
+				border: solid #4ABDAC 20px;
+				text-align: center;
+			}
+			ul {
+				text-align: center;
+				padding-top: 20px;
+				}
+			li{
+				padding-left: 10px;
+				padding:10px;
+				
+			}
+		</style>
+			
+    <script>
+        var itemList = [];
+		
+        function saveList () {
+            localStorage.setItem('itemList', JSON.stringify(itemList));
+        }
+        function retrieveList() {
+            itemList = JSON.parse(
+                localStorage.getItem('itemList') ? localStorage.getItem('itemList') : '[]');
+        }
+		
+		// callTotal() to get total price
+		function callTotal(){
+			var totalAmount=0;
+			
+			if(!itemList.length){
+				document.getElementsByTagName('input')[0].value = 0+"";	
+			}  // if empty itemlist[]
+			
+			else{
+				for(var i =0 ; i<itemList.length ; ++i){
+					totalAmount += itemList[i].quantity*itemList[i].price;
+				}
+			
+				console.log(totalAmount);
+				console.log(document.getElementsByTagName('input')[0].value);
+				document.getElementsByTagName('input')[0].value = totalAmount;
+			}
+		}
+        function refreshList(){
+			 
+			 retrieveList();
+			 if(!itemList.length){ 
+			 
+				 $('.table').html('<h1 class="display-3" style="text-align:center; font-size:30px "> Nothing to show here.<br> Go to inventory and add something to cart :)</h1>');
+			 	
+				 callTotal();
+			 
+			 } // if empty itemlist 
+			
+			else {
+			
+				// add table header
+				
+             	$('.table').html('<tr><th>Name</th><th>Price</th><th>Quantity</th><th>Total Price</th><th align="center">Add</th><th align="right">Delete</th><th align="right">Remove</th></tr>');
+				
+            	for (var i = 0; i < itemList.length; i++) {
+					
+					var price = itemList[i].price;
+					console.log(itemList[i].name,itemList[i].price,itemList[i].quantity);
+				
+					// adds table row from local storage
+					
+					var newList = $('<tr><td>' + itemList[i].name + '</td><td>'+ itemList[i].price + '</td><td>'+ itemList[i].quantity + '</td><td>'+ price * itemList[i].quantity + 
+					'</td><td class="text-center"><img src="add.png" width="32" data-id='+
+					i+' class=" button-add" /></td><td class="text-center"><img src="sub.png" width="28" data-id='+i+' class="button-sub" /></td>'+'<td class="text-center"><img src="cross.png" width="28" data-id='+i+' class="button-del" /></td></tr>');
+				
+				
+					newList.appendTo('.table');
+			    	callTotal();
+		  			}
+				}
+			
+			
+			$('.button-add').click(function(){
+			
+				itemList[parseInt($(this).attr('data-id'))].quantity++;
+				console.log(parseInt($(this).attr('data-id')));
+				
+				saveList();
+			
+        		refreshList();
+                
+			
+			});
+			
+			$('.button-sub').click(function(){
+			
+				itemList[parseInt($(this).attr('data-id'))].quantity--;
+			
+				/*var parentEl = $(this)[0].parentElement;
+				var parentNode = parentEl.parentNode;*/
+			
+				if(itemList[parseInt($(this).attr('data-id'))].quantity <= 0){
+				
+					itemList.splice(parseInt($(this).attr('data-id')),1);
+					//parentNode.remove();
+					saveList();
+					
+					refreshList();
+					}
+		
+				saveList();
+		
+        		refreshList();	
+				
+			});
+			
+			$('.button-del').click(function(){
+			
+				//itemList[parseInt($(this).attr('data-id'))].quantity = 0;
+
+				/*var parentEl = $(this)[0].parentElement;
+				var parentNode = parentEl.parentNode;*/
+			
+				itemList.splice(parseInt($(this).attr('data-id')),1);
+			
+				//parentNode.remove();  // to remove the tr from view
+				saveList();
+		
+        		refreshList();	
+			});
+            
+		} 
+		
+        $(function () {
+			refreshList(); 
+		})
+
+		</script>
+	</head>
+	<body>
+		
+		<div class="container">
+			<h1 class="display-1" style="text-align:center; background-color:aqua">Your generic shopping cart</h1><br>
+ 			<h1 style="text-align:center"> <a class="btn btn-primary btn-lg btn-block" href="shoppingList.html"> Move to Inventory </a></h1>
+			<h1 style="text-align:center"> <a class="btn btn-outline-primary btn-lg btn-block" href="cart.html"> Move to your cart</a> </h1>
+		
+			<table class="table">
+				
+			</table>
+			<div style="text-align: center;">
+    			<span style="border:20px solid mediumaquamarine ;">
+        			 Your total : <input type="text" value="0">
+    			</span>
+			</div>
+		    
+			</span>
+		</div>
+	</body>
+</html>
