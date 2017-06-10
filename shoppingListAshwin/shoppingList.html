@@ -51,7 +51,8 @@
 				padding:10px;
 				text-align: center;
 			}
-			p{
+			<p>You can use the mark tag to <mark>highlight</mark> text.</p>
+{
 				background-color: mediumaquamarine;
 				
 			}
@@ -67,7 +68,8 @@
         }
         
         function disableButton (button) {
-             button.attr('disabled','disabled');
+             
+			 button.attr('disabled','disabled');
 			 button.innerHTML = "Added to cart";
             }
             
@@ -79,11 +81,14 @@
 				var id = $(this).siblings();
 				var price = id[2].children[1].textContent; 
 				
-				if(id[3].value) 
-					var q = id[3].value; 
-				else
-					var q = 1;  // if no quantity is mentioned default 1
-				
+				if(id[3].value){ 
+					var q = id[3].value;
+					alert(q+' Items added to cart');
+				}
+				else{
+					var q = 1;
+					alert('One Item added to cart');// if no quantity is mentioned default 1
+				}
 				item++;
 				itemList.push({
                     name: id[2].children[0].textContent,
@@ -177,7 +182,16 @@
 					<input class="form-control" type="text" placeholder="Enter no. of items">
 				<button syle="display: inline-block" type="button" data-id="6" class="btn btn-success btn-block">Add to cart</button>
     			</div>
+		   </div>
 		</div>
+		
+		<footer class="footer">
+			<div class="container">
+			<div class="jumbotron" style="text-align:center">
+				<span class="text-muted">created by fanbyprinciple @10-6-2017</span>
+			</div>
+			</div>	
+		</footer>
 		
 	</body>
 </html>
